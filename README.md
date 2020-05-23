@@ -1,13 +1,12 @@
 # Team Profile Generator :office:
 Node.js builds a HTML page to display summaries about employees.
 
-## Badges
-  ![GitHub followers](https://img.shields.io/github/followers/deannapi?style=social)
-  ![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)
-  ![GitHub repo size](https://img.shields.io/github/repo-size/deannapi/team-profile-generator)
-  ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/deannapi/team-profile-generator)
-  ![GitHub](https://img.shields.io/github/license/deannapi/team-profile-generator)
-  ![GitHub last commit](https://img.shields.io/github/last-commit/deannapi/team-profile-generator)
+![GitHub followers](https://img.shields.io/github/followers/deannapi?style=social)
+![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)
+![GitHub repo size](https://img.shields.io/github/repo-size/deannapi/team-profile-generator)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/deannapi/team-profile-generator)
+![GitHub](https://img.shields.io/github/license/deannapi/team-profile-generator)
+![GitHub last commit](https://img.shields.io/github/last-commit/deannapi/team-profile-generator)
 
 ## Table of Contents
 * [Description](#description)
@@ -41,6 +40,6 @@ Node.js builds a HTML page to display summaries about employees.
 ![]()
 
 ## Instructions
-The applictions uses [Jest](https://www.npmjs.com/package/jest) for running the unit tests and [Inquirer](https://www.npmjs.com/package/inquirer) for collecting input from the user.  The application will be invoked by using the following command:
+The application uses [Jest](https://www.npmjs.com/package/jest) for running the unit tests and [Inquirer](https://www.npmjs.com/package/inquirer) for collecting input from the user.  The application will be invoked by using the following command:
 
         node app.js
