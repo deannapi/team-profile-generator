@@ -1,6 +1,17 @@
+const Employee = require('./Employee');
+const Engineer = require('./Engineer');
+const Intern = require('./Intern');
+const Manager = require('./Manager');
 const inquirer = require('inquirer');
-const jest = require('jest');
-const fs = require('fs')
-const App = require('./lib/App');
+const fs = require('fs');
 
-App.star
+class App{
+    constructor() {
+        // Keep list of employees that are entered
+        this.employees = [];
+
+        
+    }
+}
+
+module.exports = App;
