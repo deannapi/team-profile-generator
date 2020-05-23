@@ -1,0 +1,30 @@
+{
+  "name": "team-profile-generator",
+  "version": "1.0.0",
+  "description": "builds a HTMl page with node.js about employee data",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deannapi/team-profile-generator.git"
+  },
+  "keywords": [
+    "team-profile-generator",
+    "node",
+    "html"
+  ],
+  "author": "DeAnna Martinez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deannapi/team-profile-generator/issues"
+  },
+  "homepage": "https://github.com/deannapi/team-profile-generator#readme",
+  "dependencies": {
+    "inquirer": "^7.1.0"
+  },
+  "devDependencies": {
+    "jest": "^26.0.1"
+  }
+}
