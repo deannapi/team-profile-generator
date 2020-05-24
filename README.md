@@ -1,4 +1,4 @@
-# Team Profile Generator :office:
+# :office:Team Profile Generator
 Node.js builds a HTML page to display summaries about employees.
 
 ![GitHub followers](https://img.shields.io/github/followers/deannapi?style=social)
@@ -8,12 +8,12 @@ Node.js builds a HTML page to display summaries about employees.
 ![GitHub](https://img.shields.io/github/license/deannapi/team-profile-generator)
 ![GitHub last commit](https://img.shields.io/github/last-commit/deannapi/team-profile-generator)
 
-## Table of Contents
+## :bookmark_tabs:Table of Contents
 * [Description](#description)
 * [Demo](#demo)
 * [Instructions](#instructions)
 
-## Description
+## :bulb:Description
         AS A manager
         I WANT to generate a webpage that displays my team's basic info
         SO THAT I have quick access to their emails and GitHub profiles.
@@ -36,10 +36,10 @@ Node.js builds a HTML page to display summaries about employees.
         WHEN I decide to finish building my team
         THEN I exit the application, and the HTML is generated
 
-## Demo
+## :bulb:Demo
 ![]()
 
-## Instructions
+## :pencil2:Instructions
 The application uses [Jest](https://www.npmjs.com/package/jest) for running the unit tests and [Inquirer](https://www.npmjs.com/package/inquirer) for collecting input from the user.  The application will be invoked by using the following command:
 
         node app.js
