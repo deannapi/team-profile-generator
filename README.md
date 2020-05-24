@@ -42,4 +42,4 @@ Node.js builds a HTML page to display summaries about employees.
 ## :pencil2:Instructions
 The application uses [Jest](https://www.npmjs.com/package/jest) for running the unit tests and [Inquirer](https://www.npmjs.com/package/inquirer) for collecting input from the user.  The application will be invoked by using the following command:
 
-        node app.js
+        node index.js

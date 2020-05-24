@@ -1,199 +1,171 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const Employee = require('./lib/Employee');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
 
-class App {
-    constructor() {
-        // Keep list of employees that are entered
-        this.employees = [];
+const employees = [];
 
-        this.employeePrompt = [{
-            type: 'input',
-            name: 'name',
-            message: 'What is your name?'
-        },
-        {
-            type: 'input',
-            name: 'id', 
-            message: 'What is your ID?'
-        }, 
-        {
-            type: 'input',
-            name: 'email',
-            message: 'What is your email address?'
-        }
-        ];
-        this.managerPrompt = this.employeePrompt.concat = ([
-            {
-                type: 'input', 
-                name: 'officePhone',
-                message: 'What is your office phone number?'
-            }
-        ]);
-        this.engineerPrompt = this.employeePrompt.concat = ([
-            {
-                type: 'input', 
-                name: 'github',
-                message: 'What is your GitHub username?'
-            }
-        ]);
-        this.internPrompt = this.employeePrompt.concat= ([
-            {
-                type:'input', 
-                name: 'school', 
-                message: 'What is the name of your school?'
-            }
-        ]);
-    }
-    // start the next box of employee info
-    start() {
-        this.nextEmployee();
-    }
-    // end the questions and app
-    end() {
-        console.log('Team Profile Successfully Generated.');
-    }
-
-    // Keep asking user for next employee role and info until user selects "Exit" to end the application.  Then render the employee data on 
-    // to HTML.
-    nextEmployee() {
-        this.promptRole().then((role) => {
-            if (role ==='Exit') {
-                this.renderHTML();
-                this.end();
-            }
-            else {
-                this.promptInfo(role).then((data) => {
-                    switch (role) {
-                        case "Manager":
-                            this.employees.push(new Manager(data.name, data.id, data.email, data.officePhone));
-                            break;
-                        case "Engineer":
-                            this.employees.push(new Engineer(data.name, data.id, data.email, data.officePhone));
-                            break;
-                            case "Intern":
-                                this.employees.push(new Intern(data.name, data.id, data.email, data.officePhone));
-                                break;
-                    }
-                    //Ask user to continue/end
-                    this.nextEmployee();
-                });
-            }
-        });
-    }
-
-    //Prompt user for employee role and return it
-    promptRole() {
-        return inquirer.prompt([
-            {
-                type: 'list',
-                name: 'role',
-                message: 'What is your role?',
-                choices: ['Manager', 'Engineer', 'Intern', 'Exit']
-            }
-        ]).then(function (data) {
-            return (data.role);
-        }).catch(function (error) {
-            console.log(error);
-        });
-    }
-
-    //Prompt user for employee Info and return it
-    promptInfo(role) {
-        switch(role) {
-            case "Manager":
-                return inquirer.prompt(this.managerPrompt).then(function (data) {
-                    return data;
-                });
-            case "Engineer":
-                return inquirer.prompt(this.engineerPrompt).then(function (data) {
-                    return data;
-                });
-                case "Intern":
-                    return inquirer.prompt(this.internPrompt).then(function (data) {
-                        return data;
-                    });
-        }
-    }
-    // Add to HTML Template
-    renderHTML() {
-        fs.readFile('index.html', 'utf8', (err, htmlString) => {
-            htmlString = htmlString.split("<script></script>").join(this.getScript());
-
-            fs.writeFile('index.html', htmlString, (err) => {
-                // throws an error, you could also catch it here
-                if (err) throw err;
-                // success case, the file was saved
-                console.log('HTML generated!');
-        });
-    });
-    };
-
-    getScript() {
-
-        var scripts = ``;
-        this.employees.forEach(e => {
-            var field = "";
-            var iconClass = "";
-            switch (e.getRole()) {
-                case "Manager":
-                    field = `Office #: ${e.getOfficeNumber()}`;
-                    iconClass = `users`;
-                    break;
-                case "Engineer":
-                    field = `Github: ${e.getGithub()}`;
-                    iconClass = `cogs`;
-                    break;
-                case "Intern":
-                    field = `School: ${e.getSchool()}`;
-                    iconClass = `user-graduate`;
-                    break;
-            }
-
-            var cardScript = `
-            <script>
-            var col = $('<div class="col-4">');
-            var card = $('<div class="card mx-auto border-info mb-3" style="max-width: 18rem;">');
-            var header1 = $('<div class="card-header text-center h4">');
-            header1.text("${e.getName()}");
-            var header2 = $('<div class="card-header text-center">');
-            var icon = $('<i class="fas fa-${iconClass}">');
-            header2.text(" ${e.getRole()}");
-            header2.prepend(icon);
-            var cardBody = $('<div class="card-body text-info">');
-            var cardTitle = $('<h5 class="card-title">');
-            cardTitle.text("Employee Information:");
-            var cardText = $('<p class="card-text">');
-            cardText.text("ID: ${e.getId()}");
-            var cardText2 = $('<p class="card-text">');
-            cardText2.text("Email: ${e.getEmail()}");
-            var cardText3 = $('<p class="card-text">');
-            cardText3.text("${field}");
-            cardBody.append(cardTitle);
-            cardBody.append(cardText);
-            cardBody.append(cardText2);
-            cardBody.append(cardText3);
-    
-            card.append(header1);
-            card.append(header2);
-            card.append(cardBody);
-            col.append(card);
-            $("#cards").append(col);    
-            </script>        
-            `;
-            scripts += cardScript;
-
-        });
-
-        return scripts;
-    }
-
+function startApp() {
+    startHTML();
+    addMember();
 };
 
+function addMember() {
+    inquirer.prompt([{
+        type: 'input', 
+        name: 'name', 
+        message: 'Enter team member\'s name.'
+    },
+    {
+        type: 'list',
+        name: 'role',
+        message: 'Select the team member\'s role.',
+        choices: ['Manager', 'Engineer', 'Intern']
+    },
+    {
+        type: 'input',
+        name: 'email', 
+        message: 'Enter team member\'s email.'
+    },
+    {
+        type:'input',
+        name: 'id',
+        message: 'Enter the team member\'s ID.'
+    }
+    ]).then(function({name, role, id, email}){
+        let roleInfo = '';
+        if(role === 'Engineer') {
+            roleInfo = 'GitHub username';
+        } else if (role === 'Intern') {
+            roleInfo = 'School name';
+        } else {
+            roleInfo = 'Office phone number'
+        }
+        inquirer.prompt([{
+            type: 'input',
+            name: 'roleInfo',
+            message: `Enter team member\'s ${roleInfo}`,
+        },
+        {
+            type: 'list',
+            name: 'otherMember',
+            message: 'Do you need to add another team member?',
+            choices: ['Yes', 'No']
+        }
+    ]).then(function ({roleInfo, otherMember}) {
+        let newMember;
+        if (role === 'Engineer') {
+            newMember = new Engineer(name, id, email, roleInfo);
+        } else if (role === 'Intern') {
+            newMember = new Intern(name, id, email, roleInfo);
+        } else {
+            newMember = new Manager(name, id, email, roleInfo);
+        }
+        employees.push(newMember);
+        addHTML(newMember)
+        .then(function() {
+            if (otherMember === 'Yes') {
+                addMember();
+            } else {
+                finishHTML();
+            }
+        });
+    });
+    });
+};
 
-const app = new App();
+function startHTML() {
+    const html = `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title>Team Profile</title>
+    </head>
+    <body>
+        <nav class="navbar mb-5" style='background-color: #fc0339;'>
+            <span class="navbar-brand mb-0 h1 w-100 text-center" style='color:white; font-size:42px;'>🏢 Team Profile 🏢</span>
+        </nav>
+        <div class="container">
+            <div class="row">`;
+    fs.writeFile("./index.html", html, function(err) {
+        if (err) {
+            console.log(err);
+        }
+    });
+    console.log("start");
+};
 
-app.start();
+function addHTML(member) {
+    return new Promise(function(resolve, reject) {
+        const name = member.getName();
+        const role = member.getRole();
+        const id = member.getID();
+        const email = member.getEmail();
+        let data = "";
+        if (role === "Engineer") {
+            const gitHub = member.getGitHub();
+            data = `<div class="col-6">
+            <div class="card mx-auto mb-3" style="width: 18rem">
+            <h5 class="card-header" style='text-align:center;background-color:#03fc9d'>${name}<br /><br />👨‍💻 Engineer 👩‍💻</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">ID: ${id}</li>
+                <li class="list-group-item" >📧 Email: <a href='mailto:${email}'>${email}</a></li>
+                <li class="list-group-item">💻 GitHub: <a href='https://github.com/${gitHub}'>${gitHub}</a></li>
+            </ul>
+            </div>
+        </div>`;
+        } else if (role === "Intern") {
+            const school = member.getSchool();
+            data = `<div class="col-6">
+            <div class="card mx-auto mb-3" style="width: 18rem">
+            <h5 class="card-header" style='text-align:center;background-color:#03fc9d;'>${name}<br /><br />👨‍🎓 Intern 👩‍🎓</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">ID: ${id}</li>
+                <li class="list-group-item" >📧 Email: <a href='mailto:${email}'>${email}</a></li>
+                <li class="list-group-item">🏫 School: ${school}</li>
+            </ul>
+            </div>
+        </div>`;
+        } else {
+            const officePhone = member.getOfficeNumber();
+            data = `<div class="col-6">
+            <div class="card mx-auto mb-3" style="width: 18rem">
+            <h5 class="card-header" style='text-align:center;background-color:#0324fc;color:white'>${name}<br /><br />👨‍💼 Manager 👩‍💼</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">ID: ${id}</li>
+                <li class="list-group-item" >📧 Email: <a href='mailto:${email}'>${email}</a></li>
+                <li class="list-group-item">📞 Office Phone: <a href='tel:${officePhone}'>${officePhone}</a></li>
+            </ul>
+            </div>
+        </div>`
+        }
+        console.log("Team Member's Added");
+        fs.appendFile("./index.html", data, function (err) {
+            if (err) {
+                return reject(err);
+            };
+            return resolve();
+        });
+    });
+};
+
+function finishHTML() {
+    const html = ` </div>
+    </div>
+    
+</body>
+</html>`;
+
+    fs.appendFile("./index.html", html, function (err) {
+        if (err) {
+            console.log(err);
+        };
+    });
+    console.log("HTML Page Successfully Generated!");
+};
+
+startApp();
