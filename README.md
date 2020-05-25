@@ -37,7 +37,7 @@ Node.js builds a HTML page to display summaries about employees.
         THEN I exit the application, and the HTML is generated
 
 ## :bulb:Demo
-![]()
+![](team-pro-gen-vid.webm)
 
 ## :pencil2:Instructions
 The application uses [Jest](https://www.npmjs.com/package/jest) for running the unit tests and [Inquirer](https://www.npmjs.com/package/inquirer) for collecting input from the user.  The application will be invoked by using the following command:
